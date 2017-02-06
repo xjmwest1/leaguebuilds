@@ -1,0 +1,147 @@
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+	
+	<style>
+		.list-group > button {
+			background-color: black;
+			color: white;
+			border-top: 1px solid dimgray;
+		}
+		
+		.list-group > button:first-of-type {
+			border-top: none;
+		}
+		
+		.list-group > button:hover, .item-list > button:focus {
+			background-color: dimgray;
+			color: white;
+		}
+		
+		.statsContainer {
+			color: dodgerblue;
+		}
+		
+		.statsContainer stats {
+			color: limegreen;
+		}
+		
+		.statsContainer unique {
+			color: goldenrod;
+		}
+		
+		.itemCost {
+			color: gold;
+		}
+		
+		.goldIcon {
+			background-image: url("http://ddragon.leagueoflegends.com/cdn/5.5.1/img/ui/gold.png");
+			background-repeat: no-repeat;
+			display: inline-block;
+			height: 20px;
+			width: 23px;
+			vertical-align: middle;
+		}
+	
+	</style>
+	
+</head>
+<body>
+	
+	<div ng-app="app" ng-controller="Controller as vm">
+		<div class="container-fluid">
+			<div class="row">
+				
+				<div class="col-2">
+					<input type="text" class="form-control" ng-model="vm.champFilter">
+					<div class="list-group">
+						<button type="button" class="list-group-item list-group-item-action" ng-click="vm.profile.champion = champ; vm.updateProfileChampStats()" ng-repeat="champ in vm.champions | filter: {name: vm.champFilter} | orderBy: 'name'">
+							<img class="rounded mr-3" style="width: 45px; height: 45px;" ng-src="{{champ.image.full}}">
+							{{champ.name}}
+						</button>
+					</div>
+				</div>
+				
+				<div class="col-3">
+					<input type="text" class="form-control" ng-model="vm.itemFilter">
+					<div class="list-group item-list">
+						<button type="button" class="list-group-item list-group-item-action" ng-click="vm.profile.items.push(item); vm.updateProfileItemStats()" ng-repeat="item in vm.items | filter: {name: vm.itemFilter} | orderBy: 'name'">
+							<div class="container">
+								<div class="row">
+									<img class="rounded mr-3" style="width: 45px; height: 45px;" ng-src="{{item.image.full}}">
+									<div class="col">
+										<div>{{item.name}}</div>
+										<div class="itemCost">
+											<span class="goldIcon"></span>
+											{{item.gold.total}}
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="statsContainer" ng-bind-html="vm.trustHtml(item.description)"></div>
+								</div>
+							</div>
+						</button>
+					</div>
+				</div>
+				
+				<div class="col-3">
+					<h3>Inventory</h3>
+					<div class="list-group item-list">
+						<button type="button" class="list-group-item list-group-item-action" ng-repeat="item in vm.profile.items track by $index">
+							<div class="container">
+								<div class="row">
+									<img class="rounded mr-3" style="width: 45px; height: 45px;" ng-src="{{item.image.full}}">
+									<div class="col">
+										<div>{{item.name}}</div>
+										<div class="itemCost">{{item.gold.total}}</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="statsContainer" ng-bind-html="vm.trustHtml(item.description)"></div>
+								</div>
+							</div>
+						</button>
+					</div>
+				</div>
+				
+				<div class="col-2">
+					<ul class="list-group">
+						<li class="list-group-item" ng-show="vm.profile.champion">
+							<h3>{{vm.profile.champion.name}}</h3>
+						</li>
+						<li class="list-group-item">
+							<input type="number" ng-model="vm.profile.level">
+						</li>
+						<li class="list-group-item">Health: {{vm.profile.champion.stats.hp + vm.profile.champion.stats.hpperlevel * vm.profile.level - 1 || 0}}</li>
+						<li class="list-group-item" ng-show="vm.profile.champion">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div ng-repeat="stat in vm.profile.champion.statsArray">{{stat}}</div>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="list-group-item" ng-show="vm.profile.items.length">
+							<h3>Items</h3>
+						</li>
+						<li class="list-group-item" ng-show="vm.profile.items.length" ng-repeat="stat in vm.profile.stats">+{{stat.value}} {{stat.name}}</li>
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.1/angular-sanitize.min.js"></script>
+	
+	
+	<script src="app.js"></script>
+</body>
+</html>
