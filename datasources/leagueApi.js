@@ -42,7 +42,8 @@ function getChampionList() {
 		// convert to array
 		return Object.keys(response.data).map(function(key) {
 			var value = response.data[key]
-			value.image.full = 'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/' + value.image.full;
+			value.image.full = 'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/champion/' + value.image.full
+			value.image.splash = 'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + value.id + '_0.jpg'
 			return value
 		})
 	})
@@ -53,7 +54,7 @@ function getItemList() {
 		// convert to array
 		return Object.keys(response.data).map(function(key) {
 			var value = response.data[key]
-			value.image.full = 'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/item/' + value.image.full;
+			value.image.full = 'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/item/' + value.image.full
 			return value
 		})
 	})
