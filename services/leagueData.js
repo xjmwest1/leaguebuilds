@@ -2,7 +2,8 @@ var leagueApi = require('../datasources/leagueApi')
 
 var services = {
 	getChampionList: getChampionList,
-	getItemList: getItemList
+	getItemList: getItemList,
+	updateVersion: updateVersion
 }
 
 
@@ -30,8 +31,8 @@ function getItemList() {
 		
 		return list.filter(function(item) {
 			// filter: 	keep only newsummmerrift map items
-			// 					remove items with no name
-			// 					remove quick charge items
+			// 			remove items with no name
+			// 			remove quick charge items
 			return item.maps['11'] && item.name.length > 0 && item.name.indexOf('(Quick Charge)') < 0
 		}).map(function(item) {
 			// convert item stats into english
@@ -45,6 +46,10 @@ function getItemList() {
 			return item
 		})
 	})
+}
+
+function updateVersion() {
+	return leagueApi.updateVersion()
 }
 
 function getChampStats() {

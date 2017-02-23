@@ -18,4 +18,12 @@ router.get('/items', function(req, res, next) {
 	})
 })
 
+router.get('/updateversion', function(req, res, next) {
+	leagueData.updateVersion().then(function(version) {
+		res.status(200).json(version)
+	}).catch(function(error) {
+		res.status(200).json(error)
+	})
+})
+
 module.exports = router
